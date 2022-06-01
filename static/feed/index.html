@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/style.css">
+		<link rel=icon href="/favicon.png">
+		<title>WebButt</title>
+	</head>
+	<body>
+		<nav>
+			<ul>
+				<li><a href="/profile">Profile</a></li>
+				<li><a href="/feed">Home Feed</a></li>
+				<li><a href="/about">About</a></li>
+			</ul>
+		</nav>
+
+		<h1>Feed</h1>
+		<div id="messages">
+		</div>
+
+		<hr>
+
+		<form id="messageForm" class="form">
+			<div class="form">
+				<textarea name="message_text" id="message_text" cols="100" rows="5"></textarea>
+			</div>
+			<div class="form">
+				<input type="submit" value="Post">
+			</div>
+		</form>
+
+		<script src="zepto.js"></script>
+		<script src="ssb.js"></script>
+		<script>
+			feed()
+window.addEventListener( "load", function () {
+	function sendData() {
+		const XHR = new XMLHttpRequest();
+
+    	// Bind the FormData object and the form element
+    	const FD = new FormData( form );
+
+	    // Define what happens on successful data submission
+    	XHR.addEventListener( "load", function(event) {
+      		alert( "Message Cypherlink: " + event.target.responseText );
+    	} );
+
+    	// Define what happens in case of error
+    	XHR.addEventListener( "error", function( event ) {
+      		alert( 'Oops! Something went wrong.' );
+    	} );
+
+    	// Set up our request
+    	XHR.open( "POST", "/api/post" );
+
+    	// The data sent is what the user provided in the form
+    	XHR.send( FD );
+  	}
+
+	// Access the form element...
+	const form = document.getElementById( "messageForm" );
+
+	// ...and take over its submit event.
+	form.addEventListener( "submit", function ( event ) {
+    	event.preventDefault();
+
+    	sendData();
+		feed();
+	} );
+} );
+		</script>
+		<noscript>
+			<p>Sorry, but this app requires JS to function :/</p>
+		</noscript>
+
+	</body>
+</html>
