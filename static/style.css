@@ -1,0 +1,67 @@
+body {
+	margin: 40px auto;
+	max-width: 650px;
+	line-height: 1.6;
+	font-size: 18px;
+	color: #444;
+	background-color: #EEEEEE;
+	padding: 0 10px;
+}
+
+h1, h2, h3, {
+	line-height: 1.2;
+}
+
+#username {
+	margin-bottom: 0;
+}
+
+nav ul {
+	padding-left: 0;
+}
+
+nav ul li {
+	list-style: none;
+	display: inline;
+	margin: auto;
+	text-decoration: none;
+	padding-right: 25px;
+}
+
+a {
+	color: #85A1F2;
+}
+
+a:visited {
+	color: #A38DC9;
+}
+
+form.form {
+	display: table;
+}
+
+div.form {
+	display: table-row;
+}
+
+label, input, textarea {
+	display: table-cell;
+	margin-bottom: 10px;
+}
+
+label {
+	padding-right: 10px;
+}
+
+#profile .markdown {
+	padding: 15px;
+	font-size: 14px;
+	line-height: 1.2;
+	margin: 0;
+}
+
+#profile .markdown h1, #profile .markdown h2, #profile .markdown h3 {
+	margin-bottom: 0px;
+	margin-top: 0px;
+	padding-top: 5px;
+}

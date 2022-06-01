@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/style.css">
+		<title>WebButt | Profile</title>
+	</head>
+	<body>
+		<nav>
+			<ul>
+				<li><a href="/profile">Profile</a></li>
+				<li><a href="/feed">Home Feed</a></li>
+				<li><a href="/about">About</a></li>
+			</ul>
+		</nav>
+
+		<div id="profile">
+			<h1 id="profile_username"></h2>
+			<code id="profile_pubkey"></code>
+			<div class="markdown" id="profile_description"></div>
+		</div>
+
+		<hr>
+
+		<form id="profileForm" class="form">
+			<div class="form">
+				<label for="username">New Username: </label>
+				<input type="text" name="username" id="form_username"></input>
+			</div>
+			<div class="form">
+				<label for="description">New Description: </label>
+				<textarea name="description" id="form_description" cols="45" rows="15"></textarea>
+			</div>
+			<div class="form">
+				<input type="submit" value="Update">
+			</div>
+		</form>
+		
+		<script src="zepto.js"></script>
+		<script type="text/javascript" src="//simonwaldherr.github.io/micromarkdown.js/dist/micromarkdown.min.js"></script>
+		<script src="ssb.js"></script>
+		<noscript>
+			<p>Sorry, but this app requires JS to function :/</p>
+		</noscript>
+
+	</body>
+</html>
