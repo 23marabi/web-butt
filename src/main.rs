@@ -53,60 +53,32 @@ fn index() -> &'static str {
 }
 
 #[get("/posts")]
-async fn get_posts() -> Json<Feed> {
+async fn get_posts() {
     // Initialize SSB data
     let mut sbot_client = Sbot::init(None, None).await.unwrap();
-    let ssb_id = sbot_client.whoami().await.unwrap();
 
-    let history_stream = sbot_client.create_history_stream(ssb_id).await.unwrap();
+    let post_query = SubsetQuery::Type {
+        op: "type".to_string(),
+        string: "post".to_string(),
+    };
 
-    // Iterate through the elements in the stream and use `map` to convert
-    // each `SsbMessageValue` element into a tuple of
-    // `(String, SsbMessageContentType)`. This is an example of stream
-    // conversion.
-    let type_stream = history_stream.map(|msg| match msg {
-        Ok(val) => {
-            let message_type = val.get_message_type()?;
-            let structure = Post {
-                author: val.author,
-                timestamp: val.timestamp,
-                hash: val.hash,
-            };
-            let tuple: (Post, SsbMessageContentType) = (structure, message_type);
-            Ok(tuple)
+    let post_query_opts = SubsetQueryOptions {
+        descending: Some(true),
+        keys: None,
+        page_limit: Some(5),
+    };
+
+    let query_stream = sbot_client
+        .get_subset_stream(post_query, Some(post_query_opts))
+        .await
+        .unwrap();
+
+    // This prints nothing
+    query_stream.for_each(|msg| {
+        if let Ok(val) = msg {
+            println!("{:#?}", val)
         }
-        Err(err) => Err(err),
     });
-
-    // Pin the stream to the stack to allow polling of the `future`.
-    futures::pin_mut!(type_stream);
-
-    println!("looping through type stream");
-
-    let mut posts: Vec<Post> = Vec::new();
-    // Iterate through each element in the stream and match on the `Result`.
-    // In this case, each element has type
-    // `Result<(String, SsbMessageContentType), GolgiError>`.
-    while let Some(res) = type_stream.next().await {
-        match res {
-            Ok(value) => {
-                if value.1 == SsbMessageContentType::Post {
-                    println!(
-                        "author: {}, timestamp: {}, signature: {}",
-                        value.0.author, value.0.timestamp, value.0.hash
-                    );
-                    posts.push(value.0);
-                } else {
-                    println!("{:?}", value.1);
-                }
-            }
-            Err(err) => {
-                println!("err: {:?}", err);
-            }
-        }
-    }
-
-    Json(Feed { posts })
 }
 
 #[post("/post", data = "<message>")]
