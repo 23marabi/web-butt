@@ -65,3 +65,21 @@ label {
 	margin-top: 0px;
 	padding-top: 5px;
 }
+
+#messages h3, #messages p {
+	margin-bottom: 0px;
+}
+#messages p {
+	margin-top: 0px;
+}
+
+#message_text {
+	margin: auto;
+	display: block;
+	width: 100%;
+}
+
+::selection {
+	color: #EEEEEE;
+	background-color: #444;
+}
